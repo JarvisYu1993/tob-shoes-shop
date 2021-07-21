@@ -1,0 +1,116 @@
+.font-4xl{
+    font-size: 8.75rem;
+    line-height: 1.5rem;
+}
+.font-lg-4xl{
+    font-size: 8.75rem;
+    line-height: 1.5rem;
+    @media(max-width:992px){
+        font-size: 8rem;
+        line-height: 1.5rem;
+    }
+}
+.font-xxl{
+    font-size: 2.5rem;
+    line-height: 1.5rem;
+}
+.font-lg-xxl{
+    font-size: 2.5rem;
+    line-height: 1.5rem;
+    @media(max-width:992px){
+        font-size: 2rem;
+        line-height: 1.5rem;
+    }
+}
+.font-xl{
+    font-size: 2rem;
+    line-height: 1.5rem;
+}
+.font-lg-xl{
+    font-size: 2rem;
+    line-height: 1.5rem;
+    @media(max-width:992px){
+        font-size: 1.75rem;
+        line-height: 1.5rem;
+    }
+}
+.font-md-xl{
+    font-size: 2rem;
+    line-height: 1.5rem;
+    @media(max-width:768px){
+        font-size: 1.75rem;
+        line-height: 1.5rem;
+    }
+}
+.font-l{
+    font-size: 1.75rem;
+    line-height: 1.5rem;
+    
+}
+.font-lg-l{
+    font-size: 1.75rem;
+    line-height: 1.5rem;
+    @media(max-width:992px){
+        font-size: 1.5rem;
+        line-height: 1.5rem;
+    } 
+}
+.font-md-l{
+    font-size: 1.75rem;
+    line-height: 1.5rem;
+    @media(max-width:768px){
+        font-size: 1.5rem;
+        line-height: 1.5rem;
+    } 
+}
+.font-md{
+    font-size: 1.5rem;
+    line-height: 1.5rem;
+    
+}
+.font-md-md{
+    font-size: 1.5rem;
+    line-height: 1.5rem;
+    @media(max-width:768px){
+        font-size: 1.25rem;
+        line-height: 1.5rem;
+    } 
+}
+.font-m{
+    font-size: 1.25rem;
+    line-height: 1.5rem;
+}
+.font-lg-m{
+    font-size: 1.25rem;
+    line-height: 1.5rem;
+    @media(max-width:992px){
+        font-size: 1rem;
+        line-height: 1.5rem;
+    } 
+
+}
+.font-md-m{
+    font-size: 1.25rem;
+    line-height: 1.5rem;
+    @media(max-width:768px){
+        font-size: 1rem;
+        line-height: 1.5rem;
+    } 
+}
+.font-normal{
+    font-size: 1rem;
+    line-height: 1.5rem;
+}
+.font-lg-normal{
+    font-size: 1rem;
+    line-height: 1.5rem;
+    @media(max-width:992px){
+        font-size: .75rem;
+        line-height: 1.5rem;
+    } 
+}
+.font-s{
+    font-size: 0.75rem;
+    line-height: 1.5rem;
+
+}

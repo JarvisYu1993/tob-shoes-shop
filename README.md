@@ -1,4 +1,4 @@
-# tob
+# tob shoes shop
 
 ## Project setup
 ```
