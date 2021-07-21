@@ -1,6 +1,6 @@
 <template>
   <div class="container py-4">
-    <Loading :active="isLoading"></Loading>
+    <pulse-loader :loading="loading" :color="color"></pulse-loader>
     <div class="d-flex justify-content-between">
       <h1 class="">商品列表</h1>
       <div class="d-flex align-items-center">
@@ -80,6 +80,7 @@
 import pagination from '@/components/Pagination.vue';
 import productModal from '@/components/ProductModal.vue';
 import delProductModal from '@/components/DelProductModal.vue';
+import PulseLoader from '@/components/PulseLoader.vue';
 
 export default {
   name: 'Products',
@@ -93,17 +94,19 @@ export default {
         variable: [],
       },
       pagination: {},
-      isLoading: false,
+      loading: false,
+      color: '#9DBEC7',
     };
   },
   components: {
     pagination,
     productModal,
     delProductModal,
+    PulseLoader,
   },
   methods: {
     getProductList(page = 1) {
-      this.isLoading = true;
+      this.loading = true;
       const url = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/admin/products?page=${page}`;
       this.$http
         .get(url)
@@ -111,7 +114,7 @@ export default {
           if (response.data.success) {
             this.products = response.data.products;
             this.pagination = response.data.pagination;
-            this.isLoading = false;
+            this.loading = false;
           }
         })
         .catch((error) => {

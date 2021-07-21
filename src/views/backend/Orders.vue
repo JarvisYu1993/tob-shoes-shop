@@ -27,7 +27,7 @@
                 </li>
               </ul>
             </td>
-            <td class="text-right">{{ item.total }}</td>
+            <td class="text-right">{{ Math.round(item.total) }}</td>
             <td>
               <div class="form-check form-switch">
                 <input
@@ -75,6 +75,7 @@
 import pagination from '@/components/Pagination.vue';
 import orderModal from '@/components/OrderModal.vue';
 import delOrder from '@/components/DelModal.vue';
+import PulseLoader from '@/components/PulseLoader.vue';
 
 export default {
   name: 'Orders',
@@ -92,6 +93,7 @@ export default {
     pagination,
     orderModal,
     delOrder,
+    PulseLoader,
   },
   methods: {
     getOrders(page = 1) {

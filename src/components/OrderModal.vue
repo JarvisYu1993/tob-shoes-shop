@@ -82,7 +82,7 @@
                   <tr>
                     <th>總金額</th>
                     <td>
-                      {{ tempOrder.total }}
+                      {{ Math.round(tempOrder.total) }}
                     </td>
                   </tr>
                 </tbody>
@@ -103,7 +103,7 @@
                     </th>
                     <td>{{ item.qty }} / {{ item.product.unit }}</td>
                     <td>
-                      {{ $toCurrency(item.final_total) }}
+                      {{ $toCurrency(Math.round(item.final_total)) }}
                     </td>
                   </tr>
                 </tbody>

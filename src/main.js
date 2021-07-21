@@ -5,11 +5,6 @@ import {
 import axios from 'axios';
 import VueAxios from 'vue-axios';
 
-import 'bootstrap';
-
-import Loading from 'vue3-loading-overlay';
-import 'vue3-loading-overlay/dist/vue3-loading-overlay.css';
-
 import {
   Form,
   Field,
@@ -25,8 +20,6 @@ import {
   setLocale,
 } from '@vee-validate/i18n';
 import zhTW from '@vee-validate/i18n/dist/locale/zh_TW.json';
-
-import PulseLoader from 'vue-spinner/src/PulseLoader.vue';
 
 import VueSweetalert2 from 'vue-sweetalert2';
 import 'sweetalert2/dist/sweetalert2.css';
@@ -55,8 +48,6 @@ app.config.globalProperties.$date = date;
 app.use(router);
 app.use(VueAxios, axios);
 app.use(VueSweetalert2);
-app.component('PulseLoader', PulseLoader);
-app.component('Loading', Loading);
 app.component('Form', Form);
 app.component('Field', Field);
 app.component('ErrorMessage', ErrorMessage);

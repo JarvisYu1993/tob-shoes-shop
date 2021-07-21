@@ -59,6 +59,7 @@
 import couponModal from '@/components/CouponModal.vue';
 import delModal from '@/components/DelModal.vue';
 import pagination from '@/components/Pagination.vue';
+import PulseLoader from '@/components/PulseLoader.vue';
 
 export default {
   data() {
@@ -80,6 +81,7 @@ export default {
     couponModal,
     delModal,
     pagination,
+    PulseLoader,
   },
   methods: {
     getCoupon(page = 1) {

@@ -170,6 +170,7 @@
 <script>
 import Navbar from '@/components/Navbar.vue';
 import Footer from '@/components/Footer.vue';
+import PulseLoader from '@/components/PulseLoader.vue';
 
 export default {
   name: 'Cart',
@@ -194,6 +195,7 @@ export default {
   components: {
     Navbar,
     Footer,
+    PulseLoader,
   },
   methods: {
     getCart() {

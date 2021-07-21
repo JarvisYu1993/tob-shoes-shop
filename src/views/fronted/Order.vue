@@ -66,8 +66,6 @@ export default {
   name: 'Order',
   data() {
     return {
-      loading: false,
-      color: '#9DBEC7',
       order_id: '',
       order: {},
     };
@@ -78,12 +76,10 @@ export default {
   },
   methods: {
     getOrder(id) {
-      this.loading = true;
       const api = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/order/${id}`;
       this.$http.get(api).then((res) => {
         if (res.data.success) {
           this.order = res.data.order;
-          this.loading = false;
         }
       }).catch((error) => {
         console.log(error);
