@@ -273,7 +273,8 @@ export default {
     },
     getLookAlike() {
       const { category } = this.product;
-      const filterProducts = this.products.filter((item) => item.category === category);
+      const filterProducts = this.products.filter((item) => item.id !== this.product.id
+      && item.category === category);
       const maxSize = filterProducts.length < 4 ? filterProducts.length : 4;
       const arrSet = new Set([]);
       getRandomInt();
