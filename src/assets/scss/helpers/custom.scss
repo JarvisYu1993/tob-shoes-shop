@@ -14,8 +14,9 @@
 }
 .object-img{
   object-fit: cover;
+  display: block;
   width:100%;
-  height:600px;
+  height:610px;
   position: relative;
   @media (max-width:767px){
     height:400px;
@@ -32,11 +33,9 @@
 }
 .bg-section{
   position: absolute;
-  top:50%;
+  top:40%;
   left:10%;
-  @media (max-width: 768px){
-    top:40%;
-  }
+
 }
 .intro-running{
   background: url(https://images.unsplash.com/photo-1544327415-cfb77383dabc?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=956&q=80) no-repeat;
@@ -100,7 +99,7 @@
   padding: 12px 9px;
   background: #fff;
   &:hover{
-    background: $secondary;
+    background: $danger;
     color: #fff;
   }
 }
@@ -176,5 +175,16 @@
   position: relative;
   @media (max-width:992px){
     height:540px;
+  }
+}
+
+.subscription-bg{
+  background: url(https://images.unsplash.com/photo-1458852535794-f5552aa49872?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=80) no-repeat;
+  width:100%;
+  height: 400px;
+  background-size: cover;
+  background-position: center center;
+  @media (max-width:768px){
+    height:250px;
   }
 }

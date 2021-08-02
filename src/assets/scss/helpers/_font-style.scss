@@ -1,25 +1,33 @@
 .font-4xl{
     font-size: 8.75rem;
-    line-height: 1.5rem;
+    line-height: 2rem;
 }
 .font-lg-4xl{
     font-size: 8.75rem;
-    line-height: 1.5rem;
+    line-height: 2rem;
     @media(max-width:992px){
         font-size: 8rem;
-        line-height: 1.5rem;
+        line-height: 2rem;
     }
 }
 .font-xxl{
     font-size: 2.5rem;
-    line-height: 1.5rem;
+    line-height: 2rem;
 }
 .font-lg-xxl{
     font-size: 2.5rem;
-    line-height: 1.5rem;
+    line-height: 2rem;
     @media(max-width:992px){
         font-size: 2rem;
-        line-height: 1.5rem;
+        line-height: 2rem;
+    }
+}
+.font-md-xxl{
+    font-size: 2.5rem;
+    line-height: 2rem;
+    @media(max-width:768px){
+        font-size: 2rem;
+        line-height: 2rem;
     }
 }
 .font-xl{
@@ -28,18 +36,18 @@
 }
 .font-lg-xl{
     font-size: 2rem;
-    line-height: 1.5rem;
+    line-height: 2rem;
     @media(max-width:992px){
         font-size: 1.75rem;
-        line-height: 1.5rem;
+        line-height: 2rem;
     }
 }
 .font-md-xl{
     font-size: 2rem;
-    line-height: 1.5rem;
+    line-height: 2rem;
     @media(max-width:768px){
         font-size: 1.75rem;
-        line-height: 1.5rem;
+        line-height: 2rem;
     }
 }
 .font-l{

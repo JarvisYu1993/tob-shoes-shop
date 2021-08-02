@@ -39,13 +39,30 @@
 .products-header-category{
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
     justify-content: space-evenly;
     & > li {
         position: relative;
-        a {
-        &:hover {
-            color: $primary;
+        @media(max-width:576px) {
+            width:50%;
+            text-align: center;
         }
+        a {
+            display: block;
+            &:hover {
+                color: $secondary;
+            }
+        }
+        span{
+            display: block;
+        }
+    }
+    .option-content{
+        border-right: 1px solid $primary;
+        @media (max-width:576px){
+            &:nth-child(n){
+                border-right: 0;
+            }
         }
     }
     li {
@@ -57,7 +74,7 @@
     ul {
         width: 230px;
         position: absolute;
-        top: 30px;
+        top: 25px;
         left: 20px;
         z-index: 1;
         border-top: 3px solid $primary;
@@ -71,10 +88,15 @@
         @media (max-width: 768px){
             width: 100px;
         }
+        @media(max-width:576px){
+            width:150px;
+            top: 40px;
+        }
         a {
         background-color: #fff;
         padding: 15px 50px;
         text-align: center;
+        display: block;
         @media (max-width: 920px){
             padding: 15px 20px;
         }

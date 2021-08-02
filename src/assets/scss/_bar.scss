@@ -1,9 +1,4 @@
 .option-bar{
     display: flex;
     justify-content: center;
-    a{
-        &:hover{
-            color: $secondary;
-        }
-    }
 }
