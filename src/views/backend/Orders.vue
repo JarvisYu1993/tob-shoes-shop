@@ -1,6 +1,6 @@
 <template>
   <div class="container pt-4">
-    <pulse-loader :loading="loading" :color="color"></pulse-loader>
+    <PulseLoader :loading="loading" :color="color"></PulseLoader>
     <table class="table mt-4 border-top table-hover">
       <thead>
         <tr>
@@ -72,9 +72,9 @@
 </template>
 
 <script>
-import pagination from '@/components/Pagination.vue';
-import orderModal from '@/components/OrderModal.vue';
-import delOrder from '@/components/DelModal.vue';
+import pagination from '@/components/backend/Pagination.vue';
+import orderModal from '@/components/backend/OrderModal.vue';
+import delOrder from '@/components/backend/DelModal.vue';
 import PulseLoader from '@/components/PulseLoader.vue';
 
 export default {
@@ -110,8 +110,17 @@ export default {
             this.loading = false;
           }
         })
-        .catch((error) => {
-          console.log(error);
+        .catch(() => {
+          this.$swal.fire(
+            {
+              position: 'top',
+              icon: 'error',
+              title: '訂單列表取得失敗',
+              showConfirmButton: false,
+              timer: 1000,
+            },
+          );
+          this.loading = false;
         });
     },
     openOrderModal(item) {
@@ -140,8 +149,17 @@ export default {
             this.loading = false;
           }
         })
-        .catch((error) => {
-          console.log(error);
+        .catch(() => {
+          this.$swal.fire(
+            {
+              position: 'top',
+              icon: 'error',
+              title: '無法更新付款資訊',
+              showConfirmButton: false,
+              timer: 1000,
+            },
+          );
+          this.loading = false;
         });
     },
     delOrder() {
@@ -158,8 +176,17 @@ export default {
             this.loading = false;
           }
         })
-        .catch((error) => {
-          console.log(error);
+        .catch(() => {
+          this.$swal.fire(
+            {
+              position: 'top',
+              icon: 'error',
+              title: '無法刪除訂單',
+              showConfirmButton: false,
+              timer: 1000,
+            },
+          );
+          this.loading = false;
         });
     },
   },

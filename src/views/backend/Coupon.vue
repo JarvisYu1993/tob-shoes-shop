@@ -1,9 +1,10 @@
 <template>
   <div class="container pt-4">
-    <pulse-loader :loading="loading" :color="color"></pulse-loader>
+    <PulseLoader :loading="loading" :color="color"></PulseLoader>
     <div class="d-flex justify-content-between align-items-center">
       <h1 class="mb-0">優惠券</h1>
-      <button class="btn btn-secondary text-white me-2" @click="openCouponModal(true)">
+      <button type="button" class="btn btn-secondary text-white me-2"
+      @click="openCouponModal(true)">
         新增優惠券
       </button>
     </div>
@@ -56,9 +57,9 @@
 </template>
 
 <script>
-import couponModal from '@/components/CouponModal.vue';
-import delModal from '@/components/DelModal.vue';
-import pagination from '@/components/Pagination.vue';
+import couponModal from '@/components/backend/CouponModal.vue';
+import delModal from '@/components/backend/DelModal.vue';
+import pagination from '@/components/backend/Pagination.vue';
 import PulseLoader from '@/components/PulseLoader.vue';
 
 export default {
@@ -94,13 +95,19 @@ export default {
             this.loading = false;
             this.coupons = response.data.coupons;
             this.pagination = response.data.pagination;
-          } else {
-            this.loading = false;
-            console.log(response.data.success);
           }
         })
-        .catch((error) => {
-          console.log(error);
+        .catch(() => {
+          this.$swal.fire(
+            {
+              position: 'top',
+              icon: 'error',
+              title: '優惠券取得失敗',
+              showConfirmButton: false,
+              timer: 1000,
+            },
+          );
+          this.loading = false;
         });
     },
     openCouponModal(isNew, item) {
@@ -125,12 +132,19 @@ export default {
               this.loading = false;
               this.getCoupon();
               this.$refs.couponModal.hideModal();
-            } else {
-              this.loading = false;
             }
           })
-          .catch((error) => {
-            console.log(error);
+          .catch(() => {
+            this.$swal.fire(
+              {
+                position: 'top',
+                icon: 'error',
+                title: '更新優惠券失敗',
+                showConfirmButton: false,
+                timer: 1000,
+              },
+            );
+            this.loading = false;
           });
       } else {
         const url = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/admin/coupon/${this.tempCoupon.id}`;
@@ -145,8 +159,17 @@ export default {
               this.loading = false;
             }
           })
-          .catch((error) => {
-            console.log(error);
+          .catch(() => {
+            this.$swal.fire(
+              {
+                position: 'top',
+                icon: 'error',
+                title: '更新優惠券失敗',
+                showConfirmButton: false,
+                timer: 1000,
+              },
+            );
+            this.loading = false;
           });
       }
     },
@@ -168,8 +191,17 @@ export default {
             this.loading = false;
           }
         })
-        .catch((error) => {
-          console.log(error);
+        .catch(() => {
+          this.$swal.fire(
+            {
+              position: 'top',
+              icon: 'error',
+              title: '無法刪除優惠券',
+              showConfirmButton: false,
+              timer: 1000,
+            },
+          );
+          this.loading = false;
         });
     },
   },

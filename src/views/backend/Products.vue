@@ -1,10 +1,10 @@
 <template>
   <div class="container py-4">
-    <pulse-loader :loading="loading" :color="color"></pulse-loader>
+    <PulseLoader :loading="loading" :color="color"></PulseLoader>
     <div class="d-flex justify-content-between">
       <h1 class="">商品列表</h1>
       <div class="d-flex align-items-center">
-        <button class="btn btn-secondary text-white me-2" @click="openModal('new')">
+        <button type="button" class="btn btn-secondary text-white me-2" @click="openModal('new')">
           新增商品
         </button>
       </div>
@@ -77,9 +77,9 @@
 </template>
 
 <script>
-import pagination from '@/components/Pagination.vue';
-import productModal from '@/components/ProductModal.vue';
-import delProductModal from '@/components/DelProductModal.vue';
+import pagination from '@/components/backend/Pagination.vue';
+import productModal from '@/components/backend/ProductModal.vue';
+import delProductModal from '@/components/backend/DelProductModal.vue';
 import PulseLoader from '@/components/PulseLoader.vue';
 
 export default {
@@ -117,8 +117,17 @@ export default {
             this.loading = false;
           }
         })
-        .catch((error) => {
-          console.log(error);
+        .catch(() => {
+          this.$swal.fire(
+            {
+              position: 'top',
+              icon: 'error',
+              title: '商品列表取得失敗',
+              showConfirmButton: false,
+              timer: 1000,
+            },
+          );
+          this.loading = false;
         });
     },
     openModal(isNew, product) {
@@ -132,7 +141,6 @@ export default {
       } else if (isNew === 'edit') {
         this.isNew = false;
         this.tempProduct = { ...product };
-        console.log(this.tempProduct);
         this.$refs.productModal.openModal();
       } else if (isNew === 'delete') {
         this.isNew = false;
@@ -155,8 +163,17 @@ export default {
             this.getProductList();
           }
         })
-        .catch((error) => {
-          console.log(error);
+        .catch(() => {
+          this.$swal.fire(
+            {
+              position: 'top',
+              icon: 'error',
+              title: '商品無法更新',
+              showConfirmButton: false,
+              timer: 1000,
+            },
+          );
+          this.loading = false;
         });
     },
   },
