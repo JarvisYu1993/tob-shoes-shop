@@ -1,29 +1,27 @@
 <template>
-  <Navbar/>
-    <pulse-loader :loading="loading" :color="color"></pulse-loader>
+    <PulseLoader :loading="loading" :color="color"></PulseLoader>
   <!-- 輪播 -->
   <Swiper/>
   <!-- 精選商品 -->
-  <section class="py-4">
-    <div class="container">
+  <section class="py-4 py-md-8">
+    <div class="container-m">
       <h3 class="font-md-l fw-bold mb-4">精選鞋款</h3>
       <div class="row gy-4">
         <ul class="col-md-4 col-lg-3" v-for="item in showProducts" :key="item.id">
           <li class="card">
-            <router-link :to="`/product/${item.id}`">
               <div class="card-img-top"
                 :style="`background-image: url(${item.imageUrl})`">
                 <div class="mask">
-                  <div class="caption">查看商品</div>
+                  <router-link :to="`/product/${item.id}`" class="caption">
+                  查看商品</router-link>
                 </div>
               </div>
               <div class="card-body">
-                <span class="text-grizzle">{{item.category}}</span>
-                <h4 class="card-text my-2 fw-bold font-m">{{item.title}}</h4>
-                <del>NT${{$toCurrency(item.origin_price)}}</del>
-                <p class="font-m mt-2 fw-bold">NT${{$toCurrency(item.price)}}</p>
+                <span class="text-grizzle">{{ item.category }}</span>
+                <h4 class="card-text my-2 fw-bold font-m">{{ item.title }}</h4>
+                <del>NT${{ $toCurrency(item.origin_price) }}</del>
+                <p class="font-m mt-2 fw-bold">NT${{ $toCurrency(item.price) }}</p>
               </div>
-            </router-link>
           </li>
         </ul>
         <div class="d-flex justify-content-center">
@@ -35,8 +33,8 @@
     </div>
   </section>
   <!-- 類別 -->
-  <section class="pt-4 pb-8">
-    <div class="bg-grayLight mb-4">
+  <section class="py-4 pb-md-8">
+    <div class="bg-grayLight mb-4 mb-md-6">
       <div class="container">
         <div class="row align-items-center">
           <div class="col-md-6 d-flex justify-content-center order-2 order-md-1">
@@ -57,7 +55,7 @@
         </div>
       </div>
     </div>
-    <div class="bg-grayLight mb-4">
+    <div class="bg-grayLight mb-4 mb-md-6">
       <div class="container">
         <div class="row align-items-center">
           <div class="col-md-6 intro-bg intro-basketball">
@@ -99,14 +97,25 @@
       </div>
     </div>
   </section>
-  <Footer/>
+  <section class="subscription-bg d-flex align-items-center">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-7 col-lg-5">
+          <h2 class="font-lg-xxl fw-bold mb-4 text-white text-shadow text-center text-md-start">
+            歡迎訂閱我們</h2>
+          <div class="input-group">
+            <input type="text" class="form-control border-0 py-3" placeholder="輸入您的Email">
+            <button class="btn btn-secondary text-white px-5">訂閱</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
   <router-view/>
 </template>
 
 <script>
-import Swiper from '@/components/Swiper.vue';
-import Navbar from '@/components/Navbar.vue';
-import Footer from '@/components/Footer.vue';
+import Swiper from '@/components/fronted/Swiper.vue';
 import PulseLoader from '@/components/PulseLoader.vue';
 
 export default {
@@ -117,18 +126,16 @@ export default {
       color: '#9DBEC7',
       products: [],
       showProducts: [],
-      router: '',
+      cart: {},
+      num: 0,
     };
   },
   components: {
     Swiper,
-    Navbar,
-    Footer,
     PulseLoader,
   },
   methods: {
     getProducts() {
-      // eslint-disable-next-line prefer-destructuring
       const api = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/products/all`;
       this.loading = true;
       this.$http
@@ -149,25 +156,44 @@ export default {
                 behavior: 'instant',
               });
             }, 700);
-          } else {
-            this.$swal.fire(
-              {
-                position: 'top',
-                icon: 'error',
-                title: '商品取得失敗',
-                showConfirmButton: false,
-                timer: 1000,
-              },
-            );
           }
         })
-        .catch((error) => {
-          console.log(error);
+        .catch(() => {
+          this.$swal.fire(
+            {
+              position: 'top',
+              icon: 'error',
+              title: '商品取得失敗',
+              showConfirmButton: false,
+              timer: 1000,
+            },
+          );
+          this.loading = false;
         });
+    },
+    getCart() {
+      const api = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/cart`;
+      this.$http.get(api).then((res) => {
+        if (res.data.success) {
+          this.cart = res.data.data;
+          this.num = this.cart.carts.length;
+        }
+      }).catch(() => {
+        this.$swal.fire(
+          {
+            position: 'top',
+            icon: 'error',
+            title: '購物車取得失敗',
+            showConfirmButton: false,
+            timer: 1000,
+          },
+        );
+      });
     },
   },
   created() {
     this.getProducts();
+    this.getCart();
   },
 };
 </script>

@@ -1,6 +1,5 @@
 <template>
-  <Navbar @get-products="getProducts"/>
-  <pulse-loader :loading="loading" :color="color"></pulse-loader>
+  <PulseLoader :loading="loading" :color="color"></PulseLoader>
   <!-- 主圖 -->
   <div class="position-relative">
     <img
@@ -46,16 +45,17 @@
   <div class="container">
     <div class="option-bar">
       <ul class="products-header-category my-3 my-md-4">
-        <li class="border-end" @click="getProducts()">
-          <router-link to="/products/所有鞋款" class="px-3 px-md-5 px-lg-6 py-1 font-m">
+        <li class="option-content" @click="getProducts()">
+          <router-link to="/products/所有鞋款" class="py-2 py-sm-0 px-3 px-md-5 px-lg-6 font-m">
           所有鞋款 </router-link>
         </li>
-        <li class="border-end" @click="getProducts()">
-          <router-link to="/products/精選鞋款" class="px-3 px-md-5 px-lg-6 py-1 font-m">
+        <li class="option-content" @click="getProducts()">
+          <router-link to="/products/精選鞋款" class="py-2 py-sm-0 px-3 px-md-5 px-lg-6 font-m">
           精選鞋款 </router-link>
         </li>
-        <li class="border-end">
-          <span class="px-3 px-md-5 px-lg-6 py-1 font-m text-primary">
+        <li class="option-content">
+          <span class="py-2 py-sm-0 px-3 px-md-5 px-lg-6 font-m text-primary"
+          >
           鞋款分類
           </span>
           <ul>
@@ -77,7 +77,7 @@
           </ul>
         </li>
         <li >
-          <span class="px-3 px-md-5 px-lg-6 py-1 font-m text-primary">
+          <span class="py-2 py-sm-0 px-3 px-md-5 px-lg-6 font-m text-primary">
           價格篩選
           </span>
           <ul>
@@ -98,17 +98,17 @@
   </div>
   <!-- 商品列表 -->
   <div class="py-2 py-md-4">
-    <div class="container">
-      <div class="row gy-4 mb-6">
+    <div class="container-m">
+      <div class="row gy-4 mb-4 mb-md-6">
         <ul class="col-md-4 col-lg-3" v-for="item in showProducts" :key="item.id">
           <li class="card">
-            <router-link :to="`/product/${item.id}`">
               <div
                 class="card-img-top"
-                :style="`background-image: url(${item.imageUrl})`"
+                :style="`background-image: url(${ item.imageUrl })`"
               >
                 <div class="mask">
-                  <div class="caption">查看商品</div>
+                  <router-link :to="`/product/${ item.id }`"
+                  class="caption">查看商品</router-link>
                 </div>
               </div>
               <div class="card-body">
@@ -117,20 +117,17 @@
                 <del>NT${{ $toCurrency(item.origin_price) }}</del>
                 <p class="font-m mt-2 fw-bold">NT${{ $toCurrency(item.price) }}</p>
               </div>
-            </router-link>
           </li>
         </ul>
       </div>
     </div>
   </div>
-  <Footer/>
   <router-view/>
 </template>
 
 <script>
-import Navbar from '@/components/Navbar.vue';
-import Footer from '@/components/Footer.vue';
 import PulseLoader from '@/components/PulseLoader.vue';
+import emitter from '@/assets/javascript/emitter';
 
 export default {
   data() {
@@ -138,21 +135,17 @@ export default {
       loading: false,
       color: '#9DBEC7',
       products: [],
-      pagination: {},
       category: '',
       showProducts: [],
       sortData: '',
     };
   },
   components: {
-    Navbar,
-    Footer,
     PulseLoader,
   },
   methods: {
     getProducts() {
-      // eslint-disable-next-line prefer-destructuring
-      const category = this.$route.params.category;
+      const { category } = this.$route.params;
       const api = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/products/all`;
       this.loading = true;
       this.$http
@@ -163,6 +156,7 @@ export default {
               this.showProducts = [];
               this.loading = false;
               this.products = res.data.products;
+              emitter.emit('get-products');
               if (category === '籃球鞋') {
                 this.showProducts = this.products.filter((product) => {
                   this.category = '籃球鞋';
@@ -194,22 +188,29 @@ export default {
             }, 700);
           }
         })
-        .catch((error) => {
-          console.log(error);
+        .catch(() => {
+          this.$swal.fire(
+            {
+              position: 'top',
+              icon: 'error',
+              title: '商品取得失敗',
+              showConfirmButton: false,
+              timer: 1000,
+            },
+          );
+          this.loading = false;
         });
     },
     filterPrice() {
       this.showProducts.sort((a, b) => {
         if (this.sortData === 'highToLow') {
           return a.price - b.price;
-        // eslint-disable-next-line no-else-return
-        } else {
-          return b.price - a.price;
         }
+        return b.price - a.price;
       });
     },
   },
-  created() {
+  mounted() {
     this.getProducts();
   },
 };

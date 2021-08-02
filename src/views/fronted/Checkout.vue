@@ -1,6 +1,5 @@
 <template>
-  <Navbar/>
-    <pulse-loader :loading="loading" :color="color"></pulse-loader>
+    <PulseLoader :loading="loading" :color="color"></PulseLoader>
     <div class="container-m py-4 py-md-6">
       <div class="row">
         <div class="col-md-7 order-2 order-md-1">
@@ -28,7 +27,7 @@
             :class="{ 'is-invalid': errors['email'] }"
             placeholder="請輸入 Email"
             rules="email|required"
-            v-model="form.user.email"
+            v-model.trim="form.user.email"
             ></Field>
             <ErrorMessage name="email" class="invalid-feedback"></ErrorMessage>
         </div>
@@ -45,7 +44,7 @@
             :class="{ 'is-invalid': errors['姓名'] }"
             placeholder="請輸入姓名"
             rules="required"
-            v-model="form.user.name"
+            v-model.trim="form.user.name"
             ></Field>
             <ErrorMessage name="姓名" class="invalid-feedback"></ErrorMessage>
         </div>
@@ -62,7 +61,7 @@
             :class="{ 'is-invalid': errors['電話'] }"
             placeholder="請輸入電話"
             rules="required"
-            v-model="form.user.tel"
+            v-model.trim="form.user.tel"
             ></Field>
             <ErrorMessage name="電話" class="invalid-feedback"></ErrorMessage>
         </div>
@@ -80,7 +79,7 @@
             :class="{ 'is-invalid': errors['地址'] }"
             placeholder="請輸入地址"
             rules="required"
-            v-model="form.user.address"
+            v-model.trim="form.user.address"
             ></Field>
             <ErrorMessage name="地址" class="invalid-feedback"></ErrorMessage>
         </div>
@@ -96,7 +95,7 @@
             class="form-control"
             :class="{ 'is-invalid': errors['付款方式'] }"
             rules="required"
-            v-model="form.user.payment"
+            v-model.trim="form.user.payment"
             >
             <option disabled>請選擇付款方式</option>
             <option value="ATM轉帳">ATM轉帳</option>
@@ -132,21 +131,21 @@
               <div class="d-flex align-items-center justify-content-between mb-2"
               v-for="item in cart.carts" :key="item.id">
               <div class="d-flex align-items-center mb-2">
-                 <img class="order-img" :src="item.product.imageUrl"
+                <img class="order-img" :src="item.product.imageUrl"
                 :alt="item.product.title">
                 <div class="p-2">
-                  <h4 class="fw-bold">{{item.product.title}}</h4>
-                  <h5 class="font-s d-flex align-items-center">{{item.size.size}}
-                    <span class="ms-1">x{{item.qty}}</span>
+                  <h4 class="fw-bold">{{ item.product.title }}</h4>
+                  <h5 class="font-s d-flex align-items-center">{{ item.size.size }}
+                    <span class="ms-1">x{{ item.qty }}</span>
                   </h5>
-                  <h5 class="font-s">{{item.product.content}}</h5>
+                  <h5 class="font-s">{{ item.product.content }}</h5>
                 </div>
               </div>
-                <p>NT${{$toCurrency(item.product.price)}}</p>
+                <p>NT${{ $toCurrency(item.final_total) }}</p>
               </div>
               <p class="text-end mb-2 d-flex justify-content-between align-items-center mb-2">
                 小計：
-                <span>NT${{cart.total}}</span>
+                <span>NT${{ $toCurrency(Math.round(cart.total)) }}</span>
               </p>
               <p class="text-end mb-2 d-flex justify-content-between align-items-center">
                 折扣：
@@ -163,13 +162,10 @@
         </div>
       </div>
     </div>
-  <Footer/>
   <router-view/>
 </template>
 
 <script>
-import Navbar from '@/components/Navbar.vue';
-import Footer from '@/components/Footer.vue';
 import PulseLoader from '@/components/PulseLoader.vue';
 
 export default {
@@ -193,8 +189,6 @@ export default {
     };
   },
   components: {
-    Navbar,
-    Footer,
     PulseLoader,
   },
   methods: {
@@ -206,8 +200,17 @@ export default {
           this.cart = res.data.data;
           this.loading = false;
         }
-      }).catch((error) => {
-        console.log(error);
+      }).catch(() => {
+        this.$swal.fire(
+          {
+            position: 'top',
+            icon: 'error',
+            title: '購物車取得失敗',
+            showConfirmButton: false,
+            timer: 1000,
+          },
+        );
+        this.loading = false;
       });
     },
     createOrder() {
@@ -232,8 +235,16 @@ export default {
               this.$router.push(`/order/${this.id}`);
             }
           })
-          .catch((error) => {
-            console.log(error);
+          .catch(() => {
+            this.$swal.fire(
+              {
+                position: 'top',
+                icon: 'error',
+                title: '訂單無法建立',
+                showConfirmButton: false,
+                timer: 1000,
+              },
+            );
           });
       }
     },

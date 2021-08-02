@@ -1,5 +1,5 @@
 <template>
-  <Navbar/>
+  <Navbar :num="num"/>
   <section class="py-4 bg-light">
     <div class="container-m">
       <div class="row">
@@ -11,8 +11,8 @@
             <div class="d-flex align-items-center justify-content-between mb-3
             border-bottom-dashed pb-3"
             v-for="item in order.products" :key="item.id">
-              <h5 class="text-primary">{{item.product.title}}</h5>
-              <p class="text-primary">x{{item.qty}}</p>
+              <h5 class="text-primary">{{ item.product.title }}</h5>
+              <p class="text-primary">x{{ item.qty }}</p>
             </div>
             <p class="font-m fw-bold text-end text-primary">
               總計：{{ $toCurrency(Math.round(order.total)) }}</p>
@@ -22,22 +22,22 @@
             <div class="d-flex align-items-center justify-content-between mb-3
             border-bottom-dashed pb-3">
               <h5 class="text-primary">姓名:</h5>
-              <p class="text-primary">{{order.user.name}}</p>
+              <p class="text-primary">{{ order.user.name }}</p>
             </div>
             <div class="d-flex align-items-center justify-content-between mb-3
             border-bottom-dashed pb-3">
               <h5 class="text-primary">電子郵件:</h5>
-              <p class="text-primary">{{order.user.email}}</p>
+              <p class="text-primary">{{ order.user.email }}</p>
             </div>
             <div class="d-flex align-items-center justify-content-between mb-3
             border-bottom-dashed pb-3">
               <h5 class="text-primary">電話:</h5>
-              <p class="text-primary">{{order.user.tel}}</p>
+              <p class="text-primary">{{ order.user.tel }}</p>
             </div>
             <div class="d-flex align-items-center justify-content-between mb-3
             border-bottom-dashed pb-3">
               <h5 class="text-primary">地址:</h5>
-              <p class="text-primary">{{order.user.address}}</p>
+              <p class="text-primary">{{ order.user.address }}</p>
             </div>
             <div class="d-flex align-items-center justify-content-between mb-3
             border-bottom-dashed pb-3">
@@ -47,7 +47,7 @@
             </div>
           </div>
           <div class="d-flex justify-content-end">
-            <router-link to="/products/所有鞋類" class="btn btn-secondary rounded-1 text-white">
+            <router-link to="/products/所有鞋類" class="btn btn-secondary text-white">
             繼續購物</router-link>
           </div>
         </div>
@@ -59,8 +59,8 @@
 </template>
 
 <script>
-import Navbar from '@/components/Navbar.vue';
-import Footer from '@/components/Footer.vue';
+import Navbar from '@/components/fronted/Navbar.vue';
+import Footer from '@/components/fronted/Footer.vue';
 
 export default {
   name: 'Order',
@@ -68,6 +68,8 @@ export default {
     return {
       order_id: '',
       order: {},
+      num: 0,
+      cart: {},
     };
   },
   components: {
@@ -81,14 +83,40 @@ export default {
         if (res.data.success) {
           this.order = res.data.order;
         }
-      }).catch((error) => {
-        console.log(error);
+      }).catch(() => {
+        this.$swal.fire({
+          position: 'top',
+          icon: 'error',
+          title: '登入失敗',
+          showConfirmButton: false,
+          timer: 1000,
+        });
+      });
+    },
+    getCart() {
+      const api = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/cart`;
+      this.$http.get(api).then((res) => {
+        if (res.data.success) {
+          this.cart = res.data.data;
+          this.num = this.cart.carts.length;
+        }
+      }).catch(() => {
+        this.$swal.fire(
+          {
+            position: 'top',
+            icon: 'error',
+            title: '購物車取得失敗',
+            showConfirmButton: false,
+            timer: 1000,
+          },
+        );
       });
     },
   },
   created() {
     this.order_id = this.$route.params.id;
     this.getOrder(this.order_id);
+    this.getCart();
   },
 };
 </script>
