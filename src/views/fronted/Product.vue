@@ -1,6 +1,5 @@
 <template>
-    <Navbar/>
-    <pulse-loader :loading="loading" :color="color"></pulse-loader>
+    <PulseLoader :loading="loading" :color="color"></PulseLoader>
     <section class="py-4">
       <div class="container-m">
         <div class="row mb-6" v-if="product">
@@ -22,13 +21,13 @@
             <p class="text-grizzle mb-2">{{ product.category }}</p>
             <h2 class="card-text mb-4 fw-bold font-md-xl">{{ product.title }}</h2>
             <h3 class="text-grizzle font-md-m mb-2">產品描述</h3>
-            <p class="mb-4">{{product.description}}</p>
-            <h3 class="text-grizzle font-m mb-2">產品說明</h3>
-            <p class="mb-4">{{product.content}}</p>
+            <p class="mb-4">{{ product.description }}</p>
+            <h3 class="text-grizzle font-md-m mb-2">產品說明</h3>
+            <p class="mb-4">{{ product.content }}</p>
             <h3 class="text-grizzle font-md-m mb-2">選取尺寸</h3>
             <div class="row gx-2 gy-2 mb-4">
                 <div class="col-md-4 col-lg-3" v-for="(size) in product.variable" :key="size.size">
-                  <button class="btn btn-outline-primary w-100"
+                  <button type="button" class="btn btn-outline-primary w-100"
                   @click="selectSize(size)"
                   :class="{'active': tempSelect.size == size.size}">
                     {{size.size}}
@@ -36,13 +35,13 @@
                 </div>
             </div>
             <div class="d-flex align-items-center justify-content-between mb-4">
-              <del class="font-m">NT${{ product.origin_price }}</del>
-              <p class="font-md fw-bold">NT${{ product.price }}</p>
+              <del class="font-m">NT${{ $toCurrency(product.origin_price) }}</del>
+              <p class="font-md fw-bold">NT${{ $toCurrency(product.price) }}</p>
             </div>
             <div class="row">
               <div class="col-12 col-md-6">
                 <div class="select-qty mb-4">
-                <button  type="button"
+                <button type="button"
                 @click="productQty = (productQty - 1)"
                 :disabled="productQty === 1">
                     <span class="material-icons">
@@ -50,7 +49,8 @@
                     </span>
                 </button>
                 <input type="number" :value="productQty"
-                onkeyup="value=value.replace(/^(0+)|[^\d]+/g,'')">
+                onkeyup="value=value.replace(/^(0+)|[^\d]+/g,'')"
+                readonly="readonly">
                 <button type="button" @click="productQty = (productQty + 1)">
                     <span class="material-icons">
                     add
@@ -62,8 +62,8 @@
             <div class="row gy-3 gy-md-0">
               <div class="col-md-6">
                 <button type="button" class="btn btn-outline-primary w-100 rounded-0"
-                :disabled="tempSelect.size === ''"
-                @click="addCart(product.id, productQty)">
+                :class="{'disabled': tempSelect.size === ''}"
+                @click="addCart(product.id, productQty,tempSelect)">
                   加入購物車
                 </button>
               </div>
@@ -83,35 +83,30 @@
         <ul class="row">
         <li class="col-md-4 col-lg-3" v-for="item in randomProducts" :key="item.id">
         <div class="card">
-            <a href="#" @click.prevent="goProduct(item.id)">
             <div
                 class="card-img-top"
                 :style="`background-image: url(${item.imageUrl})`"
             >
                 <div class="mask">
-                <div class="caption">查看商品</div>
+                <div class="caption" @click.prevent="goProduct(item.id)">查看商品</div>
                 </div>
             </div>
             <div class="card-body">
                 <span class="text-grizzle">{{ item.category }}</span>
                 <h4 class="card-text my-2 fw-bold font-m">{{ item.title }}</h4>
-                <del>NT${{ item.origin_price }}</del>
-                <p class="font-m mt-2 fw-bold">NT${{ item.price }}</p>
+                <del>NT${{ $toCurrency(item.origin_price) }}</del>
+                <p class="font-m mt-2 fw-bold">NT${{ $toCurrency(item.price) }}</p>
             </div>
-            </a>
         </div>
         </li>
     </ul>
       </div>
     </section>
-    <Footer/>
-    <router-view/>
 </template>
 
 <script>
-import Navbar from '@/components/Navbar.vue';
-import Footer from '@/components/Footer.vue';
 import PulseLoader from '@/components/PulseLoader.vue';
+import emitter from '@/assets/javascript/emitter';
 
 function getRandomInt(max) {
   return Math.floor(Math.random() * max);
@@ -123,6 +118,7 @@ export default {
       products: [],
       product: {},
       cart: {},
+      num: 0,
       loading: false,
       color: '#9DBEC7',
       selectImg: '',
@@ -134,8 +130,6 @@ export default {
     };
   },
   components: {
-    Navbar,
-    Footer,
     PulseLoader,
   },
   methods: {
@@ -147,18 +141,20 @@ export default {
           if (res.data.success) {
             this.products = res.data.products;
             this.getLookAlike();
-          } else {
-            // eslint-disable-next-line no-alert
-            alert(res.data.success);
           }
         })
-        .catch((error) => {
-          console.log(error);
+        .catch(() => {
+          this.$swal.fire({
+            position: 'top',
+            icon: 'error',
+            title: '商品取得失敗',
+            showConfirmButton: false,
+            timer: 1000,
+          });
         });
     },
     getProduct() {
       const { id } = this.$route.params;
-      this.randomProducts = [];
       this.loading = true;
       const api = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/product/${id}`;
       this.$http.get(api).then((res) => {
@@ -170,33 +166,37 @@ export default {
             top: 0,
             behavior: 'instant',
           });
-        } else {
-          this.$swal.fire(
-            {
-              position: 'top',
-              icon: 'error',
-              title: '商品取得失敗',
-              showConfirmButton: false,
-              timer: 1000,
-            },
-          );
-          this.loading = false;
         }
-      }).catch((err) => {
-        console.log(err);
+      }).catch(() => {
+        this.$swal.fire(
+          {
+            position: 'top',
+            icon: 'error',
+            title: '商品取得失敗',
+            showConfirmButton: false,
+            timer: 1000,
+          },
+        );
+        this.loading = false;
       });
     },
     getCart() {
-      this.loading = true;
       const url = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/cart`;
       this.$http.get(url).then((res) => {
         if (res.data.success) {
           this.cart = res.data.data;
-          this.loading = false;
-          console.log(res.data);
+          this.num = this.cart.carts.length;
         }
-      }).catch((error) => {
-        console.log(error);
+      }).catch(() => {
+        this.$swal.fire(
+          {
+            position: 'top',
+            icon: 'error',
+            title: '購物車取得失敗',
+            showConfirmButton: false,
+            timer: 1000,
+          },
+        );
       });
     },
     goProduct(id) {
@@ -206,18 +206,19 @@ export default {
     selectSize(size) {
       this.tempSelect = { ...size };
     },
-    addCart(id, qty) {
+    addCart(id, qty, size) {
       this.loading = true;
       const api = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/cart`;
       const cart = {
         product_id: id,
         qty,
-        size: this.tempSelect,
+        size,
       };
       this.$http.post(api, { data: cart }).then((res) => {
         if (res.data.success) {
           this.loading = false;
           this.tempSelect = {};
+          emitter.emit('product-cart');
           this.getCart();
           this.$swal.fire(
             {
@@ -228,19 +229,18 @@ export default {
               timer: 1000,
             },
           );
-        } else {
-          this.$swal.fire(
-            {
-              position: 'top-end',
-              icon: 'error',
-              title: '商品已在購物車',
-              showConfirmButton: false,
-              timer: 1000,
-            },
-          );
         }
-      }).catch((err) => {
-        console.log(err);
+      }).catch(() => {
+        this.$swal.fire(
+          {
+            position: 'top',
+            icon: 'error',
+            title: '無法加入購物車',
+            showConfirmButton: false,
+            timer: 1000,
+          },
+        );
+        this.loading = false;
       });
     },
     IntoCart(id, qty) {
@@ -255,23 +255,24 @@ export default {
         if (res.data.success) {
           this.loading = false;
           this.tempSelect = {};
+          emitter.emit('product-cart');
           this.getCart();
-        } else {
-          this.$swal.fire(
-            {
-              position: 'top-end',
-              icon: 'error',
-              title: '商品已在購物車',
-              showConfirmButton: false,
-              timer: 1000,
-            },
-          );
         }
-      }).catch((err) => {
-        console.log(err);
+      }).catch(() => {
+        this.$swal.fire(
+          {
+            position: 'top-end',
+            icon: 'error',
+            title: '購物車商品取得失敗',
+            showConfirmButton: false,
+            timer: 1000,
+          },
+        );
+        this.loading = false;
       });
     },
     getLookAlike() {
+      this.randomProducts = [];
       const { category } = this.product;
       const filterProducts = this.products.filter((item) => item.id !== this.product.id
       && item.category === category);
@@ -293,8 +294,22 @@ export default {
       }, 1000);
     },
   },
-  created() {
+  watch: {
+    $route(to) {
+      if (to.params.id) {
+        this.getProduct();
+      }
+    },
+  },
+  mounted() {
+    emitter.on('product-cart', () => {
+      this.getCart();
+    });
+    this.getCart();
     this.getProduct();
+  },
+  unmounted() {
+    emitter.off('product-cart', () => this.getCart());
   },
 };
 </script>
