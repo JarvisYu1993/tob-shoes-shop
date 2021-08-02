@@ -1,16 +1,15 @@
 <template>
-  <Navbar />
-  <pulse-loader :loading="loading" :color="color"></pulse-loader>
-  <section class="login-bg py-8">
+  <PulseLoader :loading="loading" :color="color"></PulseLoader>
+  <section class="login-bg h-100vh">
     <div class="mask">
-      <div class="container py-8">
-        <div class="row justify-content-center">
+      <div class="container">
+          <div class="row justify-content-center align-items-center h-100vh">
           <div class="col-8 col-md-5">
             <div class="d-flex justify-content-center">
               <div class="login-logo mb-4"></div>
             </div>
             <h2 class="font-l mb-4 fw-bold text-center text-white">後台登入</h2>
-            <Form v-slot="{ errors }" class="form-signin" @submit="signIn">
+            <Form v-slot="{ errors }" class="form-signin" @submit="signIn" @key.enter="enter">
               <div class="form-floating mb-3">
                 <Field
                   id="email"
@@ -54,12 +53,9 @@
       </div>
     </div>
   </section>
-  <Footer />
 </template>
 
 <script>
-import Navbar from '@/components/Navbar.vue';
-import Footer from '@/components/Footer.vue';
 import PulseLoader from '@/components/PulseLoader.vue';
 
 export default {
@@ -74,8 +70,6 @@ export default {
     };
   },
   components: {
-    Navbar,
-    Footer,
     PulseLoader,
   },
   methods: {
@@ -97,19 +91,17 @@ export default {
               showConfirmButton: false,
               timer: 1000,
             });
-          } else {
-            this.loading = false;
-            this.$swal.fire({
-              position: 'top',
-              icon: 'error',
-              title: '登入失敗',
-              showConfirmButton: false,
-              timer: 1000,
-            });
           }
         })
-        .catch((error) => {
-          console.log(error);
+        .catch(() => {
+          this.loading = false;
+          this.$swal.fire({
+            position: 'top',
+            icon: 'error',
+            title: '登入失敗',
+            showConfirmButton: false,
+            timer: 1000,
+          });
         });
     },
   },
