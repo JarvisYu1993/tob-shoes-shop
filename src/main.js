@@ -44,7 +44,6 @@ setLocale('zh_TW');
 const app = createApp(App);
 app.config.globalProperties.$toCurrency = toCurrency;
 app.config.globalProperties.$date = date;
-
 app.use(router);
 app.use(VueAxios, axios);
 app.use(VueSweetalert2);
