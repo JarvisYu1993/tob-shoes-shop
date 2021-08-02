@@ -40,6 +40,8 @@
 </template>
 
 <script>
+import 'bootstrap/js/dist/collapse';
+
 export default {
   methods: {
     signout() {
@@ -48,12 +50,28 @@ export default {
         .post(url)
         .then((response) => {
           if (response.data.success) {
-            document.cookie = 'hexToken=;expires=;';
+            document.cookie = 'YuToken=;expires=;';
             this.$router.push('/login');
+            this.$swal.fire(
+              {
+                position: 'top',
+                icon: 'success',
+                title: '已登出',
+                showConfirmButton: false,
+                timer: 1000,
+              },
+            );
           }
         })
-        .catch((error) => {
-          console.log(error);
+        .catch(() => {
+          this.loading = false;
+          this.$swal.fire({
+            position: 'top',
+            icon: 'error',
+            title: '無法登出',
+            showConfirmButton: false,
+            timer: 1000,
+          });
         });
     },
   },
@@ -71,8 +89,15 @@ export default {
           this.$router.push('/login');
         }
       })
-      .catch((error) => {
-        console.log(error);
+      .catch(() => {
+        this.loading = false;
+        this.$swal.fire({
+          position: 'top',
+          icon: 'error',
+          title: '無法登入後台',
+          showConfirmButton: false,
+          timer: 1000,
+        });
       });
   },
 };
