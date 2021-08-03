@@ -1,5 +1,4 @@
 <template>
-  <Navbar :num="num"/>
   <section class="py-4 bg-light">
     <div class="container-m">
       <div class="row">
@@ -54,14 +53,10 @@
       </div>
     </div>
   </section>
-  <Footer/>
   <router-view/>
 </template>
 
 <script>
-import Navbar from '@/components/fronted/Navbar.vue';
-import Footer from '@/components/fronted/Footer.vue';
-
 export default {
   name: 'Order',
   data() {
@@ -71,10 +66,6 @@ export default {
       num: 0,
       cart: {},
     };
-  },
-  components: {
-    Navbar,
-    Footer,
   },
   methods: {
     getOrder(id) {
