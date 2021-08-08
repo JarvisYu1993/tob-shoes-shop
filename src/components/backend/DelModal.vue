@@ -41,8 +41,7 @@
 </template>
 
 <script>
-// eslint-disable-next-line import/extensions
-import Modal from 'bootstrap/js/dist/modal.js';
+import Modal from 'bootstrap/js/dist/modal';
 
 export default {
   props: {

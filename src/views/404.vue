@@ -16,7 +16,6 @@
     </div>
     </section>
   <Footer/>
-  <router-view/>
 </template>
 <script>
 import Navbar from '@/components/fronted/Navbar.vue';

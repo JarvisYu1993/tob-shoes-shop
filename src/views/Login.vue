@@ -9,7 +9,7 @@
               <div class="login-logo mb-4"></div>
             </div>
             <h2 class="font-l mb-4 fw-bold text-center text-white">後台登入</h2>
-            <Form v-slot="{ errors }" class="form-signin" @submit="signIn" @key.enter="enter">
+            <Form v-slot="{ errors }" class="form-signin" @submit="signIn">
               <div class="form-floating mb-3">
                 <Field
                   id="email"

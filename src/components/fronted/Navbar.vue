@@ -8,6 +8,9 @@
             <li>
               <router-link to="/cart" class="p-3">
                 <i class="fas fa-shopping-cart font-md text-white"></i>
+                <span class="position-absolute top-20 start-90 translate-middle
+                  badge rounded-pill bg-danger" v-if="num >= 1">
+                  {{ num }}</span>
               </router-link>
             </li>
             <li class="ham-btn" :class="{'active': mobileBtn}"
@@ -26,7 +29,7 @@
               首頁
             </router-link>
           </li>
-          <li>
+          <li @click="mobileBtn = false">
             <router-link to="/products/所有鞋款"
               class="mobile-link"
             >
@@ -55,7 +58,7 @@
     </div>
      </nav>
       <div class="bg-dark text-white text-center fw-bold py-3 d-none d-md-block">
-        {{msg}}</div>
+        {{ msg }}</div>
       <nav class="header-nav bg-white d-none d-md-block">
         <div class="container">
           <div class="d-flex align-items-center justify-content-between">
@@ -117,7 +120,6 @@
         </div>
       </div>
     </header>
-    <router-view/>
 </template>
 
 <script>

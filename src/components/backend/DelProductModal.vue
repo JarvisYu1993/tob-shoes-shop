@@ -43,8 +43,7 @@
 </template>
 
 <script>
-// eslint-disable-next-line import/extensions
-import Modal from 'bootstrap/js/dist/modal.js';
+import Modal from 'bootstrap/js/dist/modal';
 
 export default {
   props: {
@@ -75,8 +74,16 @@ export default {
           this.hideModal();
           this.$emit('delete');
         }
-      }).catch((error) => {
-        console.log(error);
+      }).catch(() => {
+        this.$swal.fire(
+          {
+            position: 'top',
+            icon: 'error',
+            title: '無法刪除產品',
+            showConfirmButton: false,
+            timer: 1000,
+          },
+        );
       });
     },
     openModal() {

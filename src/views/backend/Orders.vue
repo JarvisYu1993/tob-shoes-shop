@@ -27,7 +27,7 @@
                 </li>
               </ul>
             </td>
-            <td class="text-right">{{ Math.round(item.total) }}</td>
+            <td class="text-right">{{ $toCurrency(Math.round(item.total)) }}</td>
             <td>
               <div class="form-check form-switch">
                 <input

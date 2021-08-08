@@ -8,7 +8,7 @@
           </a>
         </li>
         <li class="page-item"
-          :class="{   'active': item === page.current_page   }"
+          :class="{ 'active': item === page.current_page }"
           v-for="item in page.total_pages" :key="item">
           <a class="page-link font-m" href="#"
           @click.prevent="$emit('get-product', item)">{{ item }}</a>

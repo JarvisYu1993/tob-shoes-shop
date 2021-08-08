@@ -82,7 +82,7 @@
                   <tr>
                     <th>總金額</th>
                     <td>
-                      {{ Math.round(tempOrder.total) }}
+                      {{ $toCurrency(Math.round(tempOrder.total)) }}
                     </td>
                   </tr>
                 </tbody>

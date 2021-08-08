@@ -1,5 +1,6 @@
 <template>
-    <div class="position-relative">
+  <div>
+        <div class="position-relative">
       <img class="about-bg" src="https://images.unsplash.com/photo-1588416681455-3f2ba669371d?ixid=MnwxMjA3fDB8MHxwaG90by
       1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=80" alt="關於我們">
       <div class="about-mask d-flex align-items-center justify-content-center">
@@ -42,6 +43,7 @@
             </div>
         </div>
     </section>
+  </div>
 </template>
 
 <script>

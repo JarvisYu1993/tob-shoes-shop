@@ -32,10 +32,10 @@
           </td>
           <td class="align-middle">{{ item.category }}</td>
           <td class="align-middle">
-            {{ item.origin_price }}
+            {{ $toCurrency(item.origin_price) }}
           </td>
           <td class="align-middle">
-            {{ item.price }}
+            {{ $toCurrency(item.price) }}
           </td>
           <td class="align-middle">
             <span class="text-success" v-if="item.is_enabled">啟用</span>
@@ -131,21 +131,27 @@ export default {
         });
     },
     openModal(isNew, product) {
-      if (isNew === 'new') {
-        this.isNew = true;
-        this.tempProduct = {
-          imagesUrl: [],
-          variable: [],
-        };
-        this.$refs.productModal.openModal();
-      } else if (isNew === 'edit') {
-        this.isNew = false;
-        this.tempProduct = { ...product };
-        this.$refs.productModal.openModal();
-      } else if (isNew === 'delete') {
-        this.isNew = false;
-        this.tempProduct = { ...product };
-        this.$refs.delProductModal.openModal();
+      switch (isNew) {
+        case 'new':
+          this.isNew = true;
+          this.tempProduct = {
+            imagesUrl: [],
+            variable: [],
+          };
+          this.$refs.productModal.openModal();
+          break;
+        case 'edit':
+          this.isNew = false;
+          this.tempProduct = { ...product };
+          this.$refs.productModal.openModal();
+          break;
+        case 'delete':
+          this.isNew = false;
+          this.tempProduct = { ...product };
+          this.$refs.delProductModal.openModal();
+          break;
+        default:
+          break;
       }
     },
     updateProduct(item) {

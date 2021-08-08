@@ -9,14 +9,12 @@
       <img class="object-img" :src="item.img" alt="swiper-image" />
       <div class="bg-section">
         <h2 class="object-title mb-3 mb-md-4">{{ item.title }}</h2>
-        <div class="d-flex justify-content-center">
-           <router-link
+        <router-link
           to="/products/所有鞋款"
           class="btn btn-secondary btn-md-lg rounded-0 text-white"
         >
           立即購買</router-link
         >
-        </div>
       </div>
     </swiper-slide>
   </swiper>
@@ -50,7 +48,6 @@ export default {
     };
   },
   components: {
-    // eslint-disable-next-line vue/no-unused-components
     SwiperCore,
     Swiper,
     SwiperSlide,

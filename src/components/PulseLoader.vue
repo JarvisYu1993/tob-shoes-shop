@@ -73,12 +73,6 @@ export default {
 </script>
 
 <style>
-/*.v-spinner
-{
-    margin: 100px auto;
-    text-align: center;
-}
-*/
 .vld-overlay {
   bottom: 0;
   left: 0;

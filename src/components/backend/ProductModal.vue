@@ -143,7 +143,7 @@
                 </div>
               </div>
               <template class="mt-5" v-if="tempProduct.variable">
-                <label for="size" class="form-label">尺寸</label>
+                <label class="form-label">尺寸</label>
                 <div
                   v-for="(item, key) in tempProduct.variable"
                   class="mb-3"
@@ -151,10 +151,9 @@
                 >
                   <input
                     type="text"
-                    class="form-control"
+                    class="form-control mb-3"
                     v-model="tempProduct.variable[key].size"
                     placeholder="請輸入尺寸"
-                    id="size"
                   />
                   <div class="mb-3">
                     <button type="button" class="btn btn-outline-secondary" :id="item.id">
