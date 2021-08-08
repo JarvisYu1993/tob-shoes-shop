@@ -2,7 +2,7 @@
     <PulseLoader :loading="loading" :color="color"></PulseLoader>
     <section class="py-4">
       <div class="container-m">
-        <div class="row mb-6" v-if="product">
+        <div class="row mb-4 mb-md-6" v-if="product">
           <div class="col-md-6 mb-4 mb-md-0">
             <img class="products-bg mb-3" :src="selectImg" v-if="selectImg">
             <img class="products-bg mb-3" :src="product.imageUrl" v-else>
@@ -30,7 +30,7 @@
                   <button type="button" class="btn btn-outline-primary w-100"
                   @click="selectSize(size)"
                   :class="{'active': tempSelect.size == size.size}">
-                    {{size.size}}
+                    {{ size.size }}
                   </button>
                 </div>
             </div>
@@ -80,28 +80,29 @@
         </div>
         <hr>
         <h2 class="text-center font-md-xl fw-bold pb-4 pt-2">相關商品</h2>
-        <ul class="row">
+        <ul class="row gy-4">
         <li class="col-md-4 col-lg-3" v-for="item in randomProducts" :key="item.id">
-        <div class="card">
+          <a href="#" class="card" @click.prevent="goProduct(item.id)">
             <div
-                class="card-img-top"
-                :style="`background-image: url(${item.imageUrl})`"
+              class="card-img-top"
+              :style="`background-image: url(${ item.imageUrl })`"
             >
-                <div class="mask">
-                <div class="caption" @click.prevent="goProduct(item.id)">查看商品</div>
-                </div>
+              <button type="button"
+              class="btn btn-secondary card-btn w-100 text-white py-2">
+              查看商品
+              </button>
             </div>
             <div class="card-body">
-                <span class="text-grizzle">{{ item.category }}</span>
-                <h4 class="card-text my-2 fw-bold font-m">{{ item.title }}</h4>
-                <del>NT${{ $toCurrency(item.origin_price) }}</del>
-                <p class="font-m mt-2 fw-bold">NT${{ $toCurrency(item.price) }}</p>
+              <span class="text-grizzle">{{ item.category }}</span>
+              <h4 class="card-text my-2 fw-bold font-m">{{ item.title }}</h4>
+              <del>NT${{ $toCurrency(item.origin_price) }}</del>
+              <p class="font-m mt-2 fw-bold">NT${{ $toCurrency(item.price) }}</p>
             </div>
-        </div>
+          </a>
         </li>
     </ul>
-      </div>
-    </section>
+    </div>
+  </section>
 </template>
 
 <script>
@@ -297,7 +298,9 @@ export default {
   watch: {
     $route(to) {
       if (to.params.id) {
-        this.getProduct();
+        setTimeout(() => {
+          this.getProduct();
+        }, 500);
       }
     },
   },
