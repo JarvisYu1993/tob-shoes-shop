@@ -38,22 +38,23 @@
       alt="休閒鞋"
     >
     <div class="products-mask d-flex align-items-center justify-content-center">
-      <h2 class="font-xl text-white fw-bold">{{category}}</h2>
+      <h2 class="font-xl text-white fw-bold">{{ category }}</h2>
     </div>
   </div>
   <!-- 篩選bar -->
   <div class="container">
     <div class="option-bar">
       <ul class="products-header-category my-3 my-md-4">
-        <li class="option-content" @click="getProducts()">
+        <li class="option-content" @click="getProducts(), openCategory = false, openPrice = false">
           <router-link to="/products/所有鞋款" class="py-2 py-sm-0 px-3 px-md-5 px-lg-6 font-m">
           所有鞋款 </router-link>
         </li>
-        <li class="option-content" @click="getProducts()">
+        <li class="option-content" @click="getProducts(), openCategory = false, openPrice = false">
           <router-link to="/products/精選鞋款" class="py-2 py-sm-0 px-3 px-md-5 px-lg-6 font-m">
           精選鞋款 </router-link>
         </li>
-        <li class="option-content">
+        <li class="option-content" :class="{ 'active': openCategory }"
+        @click="openCategory = !openCategory, openPrice = false">
           <span class="py-2 py-sm-0 px-3 px-md-5 px-lg-6 font-m text-primary"
           >
           鞋款分類
@@ -76,7 +77,8 @@
               </li>
           </ul>
         </li>
-        <li >
+        <li class="option-content border-0" :class="{'active': openPrice}"
+        @click="openPrice = !openPrice, openCategory = false">
           <span class="py-2 py-sm-0 px-3 px-md-5 px-lg-6 font-m text-primary">
           價格篩選
           </span>
@@ -99,17 +101,17 @@
   <!-- 商品列表 -->
   <div class="py-2 py-md-4">
     <div class="container-m">
-      <div class="row gy-4 mb-4 mb-md-6">
-        <ul class="col-md-4 col-lg-3" v-for="item in showProducts" :key="item.id">
-          <li class="card">
+      <ul class="row gy-4 mb-4 mb-md-6">
+        <li class="col-md-4 col-lg-3" v-for="item in showProducts" :key="item.id">
+            <a href="#" class="card" @click.prevent="goProduct(item.id)">
               <div
                 class="card-img-top"
                 :style="`background-image: url(${ item.imageUrl })`"
               >
-                <div class="mask">
-                  <router-link :to="`/product/${ item.id }`"
-                  class="caption">查看商品</router-link>
-                </div>
+                <button type="button"
+                class="btn btn-secondary card-btn w-100 text-white py-2">
+                查看商品
+                </button>
               </div>
               <div class="card-body">
                 <span class="text-grizzle">{{ item.category }}</span>
@@ -117,12 +119,11 @@
                 <del>NT${{ $toCurrency(item.origin_price) }}</del>
                 <p class="font-m mt-2 fw-bold">NT${{ $toCurrency(item.price) }}</p>
               </div>
-          </li>
-        </ul>
-      </div>
+            </a>
+        </li>
+      </ul>
     </div>
   </div>
-  <router-view/>
 </template>
 
 <script>
@@ -138,6 +139,8 @@ export default {
       category: '',
       showProducts: [],
       sortData: '',
+      openCategory: false,
+      openPrice: false,
     };
   },
   components: {
@@ -156,6 +159,7 @@ export default {
               this.showProducts = [];
               this.loading = false;
               this.products = res.data.products;
+              this.openCategory = false;
               emitter.emit('get-products');
               if (category === '籃球鞋') {
                 this.showProducts = this.products.filter((product) => {
@@ -208,6 +212,9 @@ export default {
         }
         return b.price - a.price;
       });
+    },
+    goProduct(id) {
+      this.$router.push(`/product/${id}`);
     },
   },
   mounted() {
