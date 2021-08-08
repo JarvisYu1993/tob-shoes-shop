@@ -1,7 +1,7 @@
 <template>
     <pulse-loader :loading="loading" :color="color"></pulse-loader>
-    <section class="bg-light py-10 h-100vh">
-      <div class="container p-6 bg-white" v-if="num > 0">
+    <section class="bg-light py-4 py-md-8 py-lg-10 h-100vh">
+      <div class="container p-4 p-md-6 bg-white" v-if="num > 0">
         <div class="d-flex align-items-center justify-content-between mb-3 pb-3 border-bottom">
           <h3 class="font-md fw-bold text-center">購物車品項</h3>
             <router-link to="/products/所有鞋類"
@@ -12,71 +12,72 @@
             </router-link>
         </div>
         <table class="table table-hover d-none d-md-table">
-        <tbody>
-            <tr v-for="item in cart.carts" :key="item.id"
-            class="text-center">
-                <td class="align-middle text-start" width="50%">
-                  <div class="d-flex align-items-center">
-                    <router-link :to="`/product/${item.product.id}`">
-                      <img class="table-img me-4" :src="item.product.imageUrl"
-                      :alt="item.product.title">
-                    </router-link>
-                     <div class="d-flex flex-column align-items-start">
-                    <h4 class="font-lg-m mb-1">{{ item.product.title }}</h4>
-                    <h5 class="font-lg-normal mb-1">尺寸：{{ item.size.size }}
-                      / {{ item.product.unit }}</h5>
-                    <h5 class="font-lg-normal">{{ item.product.content }}</h5>
-                  </div>
-                  </div>
-                </td>
-                <td class="align-middle" width="30%">
-                  <div class="select-qty">
-                    <button type="button"
-                    @click="updateCart(item, 'del')"
-                    :disabled="item.qty === 1">
-                        <span class="material-icons">
-                        remove
-                        </span>
-                    </button>
-                    <input type="number" :value="item.qty"
-                    readonly="readonly">
-                    <button type="button"
-                    @click="updateCart(item, 'add')">
-                        <span class="material-icons">
-                        add
-                        </span>
-                    </button>
-                  </div>
-                </td>
-                <td class="font-lg-m align-middle" width="10%">NT${{ $toCurrency(item.total) }}</td>
-                <td width="10%" class="align-middle">
-                  <a
-                  href="#"
-                  class="material-icons del-icon font-xl rounded-pill"
-                  @click.prevent="delCartItem(item.id)"
-                  >
-                  delete
-                  </a>
-                </td>
-            </tr>
-            </tbody>
+          <tbody>
+              <tr v-for="item in cart.carts" :key="item.id"
+              class="text-center">
+                  <td class="align-middle text-start" width="50%">
+                    <div class="d-flex align-items-center">
+                      <router-link :to="`/product/${item.product.id}`">
+                        <img class="table-img me-4" :src="item.product.imageUrl"
+                        :alt="item.product.title">
+                      </router-link>
+                      <div class="d-flex flex-column align-items-start">
+                      <h4 class="font-lg-m mb-1 fw-bold">{{ item.product.title }}</h4>
+                      <h5 class="font-lg-normal mb-1">尺寸：{{ item.size.size }}
+                        / {{ item.product.unit }}</h5>
+                      <h5 class="font-lg-normal">{{ item.product.content }}</h5>
+                    </div>
+                    </div>
+                  </td>
+                  <td class="align-middle" width="30%">
+                    <div class="select-qty">
+                      <button type="button"
+                      @click="updateCart(item, 'del')"
+                      :disabled="item.qty === 1">
+                          <span class="material-icons">
+                          remove
+                          </span>
+                      </button>
+                      <input type="number" :value="item.qty"
+                      readonly="readonly">
+                      <button type="button"
+                      @click="updateCart(item, 'add')">
+                          <span class="material-icons">
+                          add
+                          </span>
+                      </button>
+                    </div>
+                  </td>
+                  <td class="font-lg-m align-middle" width="10%">
+                    NT${{ $toCurrency(item.total) }}</td>
+                  <td width="10%" class="align-middle">
+                    <a
+                    href="#"
+                    class="material-icons del-icon font-xl rounded-pill"
+                    @click.prevent="delCartItem(item.id)"
+                    >
+                    delete
+                    </a>
+                  </td>
+              </tr>
+          </tbody>
         </table>
         <div class="d-block d-md-none mb-4" v-for="item in cart.carts" :key="item.id">
           <div class="d-flex justify-content-between align-items-center mb-3">
             <div class="d-flex align-items-center">
               <router-link :to="`/product/${item.product.id}`">
-                <img class="table-img me-3" :src="item.product.imageUrl"
+                <img class="table-img me-2" :src="item.product.imageUrl"
                 :alt="item.product.title">
               </router-link>
               <div class="d-flex flex-column align-items-start">
-                <h4 class="font-lg-m mb-1">{{ item.product.title }}</h4>
-                <h5 class="font-lg-normal mb-1">尺寸：{{ item.size.size }}
+                <h4 class="font-md-normal fw-bold">{{ item.product.title }}</h4>
+                <h5 class="font-md-normal">尺寸：{{ item.size.size }}
                   / {{ item.product.unit }}
                 </h5>
-                <h5 class="font-lg-normal">{{ item.product.content }}</h5>
+                <h5 class="font-md-normal">{{ item.product.content }}</h5>
               </div>
             </div>
-            <p class="">NT${{ $toCurrency(item.total) }}</p>
+            <p class="font-normal">NT${{ $toCurrency(item.total) }}</p>
           </div>
           <div class="row justify-content-between align-items-center">
             <div class="col-8">
@@ -140,7 +141,7 @@
         <div class="d-flex align-items-center justify-content-between mb-4
         border-top border-bottom py-3" v-else>
         <span class="font-md fw-bold">總金額：</span>
-        <span class="font-md fw-bold">NT${{ $toCurrency(Math.round(cart.final_total))}}</span>
+        <span class="font-md fw-bold">NT${{ $toCurrency(Math.round(cart.final_total)) }}</span>
         </div>
         <div class="d-flex justify-content-between justify-content-md-end">
             <router-link to="/products/所有鞋類"
@@ -170,7 +171,6 @@
         </div>
       </div>
     </section>
-  <router-view/>
 </template>
 
 <script>
@@ -223,7 +223,8 @@ export default {
         case 'add':
           item.qty += 1;
           break;
-          // no default
+        default:
+          break;
       }
       const api = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/cart/${item.id}`;
       const cart = {
