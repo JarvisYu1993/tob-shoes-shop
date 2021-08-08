@@ -117,6 +117,22 @@
         line-height: 1.5rem;
     } 
 }
+.font-md-normal{
+    font-size: 1rem;
+    line-height: 1.5rem;
+    @media(max-width:992px){
+        font-size: .75rem;
+        line-height: 1.5rem;
+    } 
+}
+.font-sm-normal{
+    font-size: 1rem;
+    line-height: 1.5rem;
+    @media(max-width:414px){
+        font-size: .75rem;
+        line-height: 1.5rem;
+    } 
+}
 .font-s{
     font-size: 0.75rem;
     line-height: 1.5rem;

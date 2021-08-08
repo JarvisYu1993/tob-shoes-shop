@@ -59,54 +59,53 @@
     }
     .option-content{
         border-right: 1px solid $primary;
+        cursor: pointer;
+        &.active {
+            ul{
+                display: block;
+            }
+        }
+        ul {
+            width: 230px;
+            position: absolute;
+            top: 25px;
+            left: 20px;
+            z-index: 1;
+            border-top: 3px solid $primary;
+            border-bottom: 3px solid $primary;
+            display:none;
+            transition: opacity 0.3s;
+            @media (max-width: 920px){
+                width: 150px;
+            }
+            @media (max-width: 768px){
+                width: 100px;
+            }
+            @media(max-width:576px){
+                width:150px;
+                top: 40px;
+            }
+            a {
+            background-color: #fff;
+            padding: 15px 50px;
+            text-align: center;
+            display: block;
+            @media (max-width: 920px){
+                padding: 15px 20px;
+            }
+            @media (max-width: 768px){
+                padding: 10px 0px;
+            }
+            &:hover {
+                color: darken($primary, 10);
+                background-color: #ddd;
+            }
+            }
+        }
         @media (max-width:576px){
             &:nth-child(n){
                 border-right: 0;
             }
-        }
-    }
-    li {
-        &:hover ul {
-        opacity: 1;
-        visibility: visible;
-        }
-    }
-    ul {
-        width: 230px;
-        position: absolute;
-        top: 25px;
-        left: 20px;
-        z-index: 1;
-        border-top: 3px solid $primary;
-        border-bottom: 3px solid $primary;
-        opacity: 0;
-        visibility: hidden;
-        transition: opacity 0.3s;
-        @media (max-width: 920px){
-            width: 150px;
-        }
-        @media (max-width: 768px){
-            width: 100px;
-        }
-        @media(max-width:576px){
-            width:150px;
-            top: 40px;
-        }
-        a {
-        background-color: #fff;
-        padding: 15px 50px;
-        text-align: center;
-        display: block;
-        @media (max-width: 920px){
-            padding: 15px 20px;
-        }
-        @media (max-width: 768px){
-            padding: 10px 0px;
-        }
-        &:hover {
-            color: darken($primary, 10);
-            background-color: #ddd;
-        }
         }
     }
 }

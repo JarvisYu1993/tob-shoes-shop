@@ -11,6 +11,9 @@
   word-wrap: break-word;
   background-color: $card-bg;
   background-clip: border-box;
+  @media (max-width: 768px) {
+    box-shadow: 2px 2px 8px rgba(0,0,0,.1);
+  }
 
     &:hover{
       box-shadow: 2px 2px 8px rgba(0,0,0,.2);
@@ -149,6 +152,21 @@
   height:250px; 
   background-size: cover;
   background-position: center;
+  position: relative;
+}
+
+.card-btn{
+  opacity: 0;
+  position: absolute;
+    bottom: 0;
+  @media (max-width: 768px) {
+    opacity: 0.8;
+    padding: .75rem 0;
+  }
+  @media (max-width: 576px) {
+    opacity: 0.8;
+    padding: .5rem 0;
+  }
 }
 
 .card-img,
