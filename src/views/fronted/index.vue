@@ -1,38 +1,37 @@
 <template>
-    <PulseLoader :loading="loading" :color="color"></PulseLoader>
-  <!-- 輪播 -->
+  <PulseLoader :loading="loading" :color="color"></PulseLoader>
   <Swiper/>
-  <!-- 精選商品 -->
   <section class="py-4 py-md-8">
     <div class="container-m">
       <h3 class="font-md-l fw-bold mb-4">精選鞋款</h3>
-      <div class="row gy-4">
-        <ul class="col-md-4 col-lg-3" v-for="item in showProducts" :key="item.id">
-          <li class="card">
-              <div class="card-img-top"
-                :style="`background-image: url(${item.imageUrl})`">
-                <div class="mask">
-                  <router-link :to="`/product/${item.id}`" class="caption">
-                  查看商品</router-link>
-                </div>
-              </div>
-              <div class="card-body">
-                <span class="text-grizzle">{{ item.category }}</span>
-                <h4 class="card-text my-2 fw-bold font-m">{{ item.title }}</h4>
-                <del>NT${{ $toCurrency(item.origin_price) }}</del>
-                <p class="font-m mt-2 fw-bold">NT${{ $toCurrency(item.price) }}</p>
-              </div>
-          </li>
-        </ul>
+      <ul class="row gy-4">
+        <li class="col-md-4 col-lg-3" v-for="item in showProducts" :key="item.id">
+          <a href="#" class="card" @click.prevent="goProduct(item.id)">
+            <div
+              class="card-img-top"
+              :style="`background-image: url(${ item.imageUrl })`"
+            >
+              <button type="button"
+              class="btn btn-secondary card-btn w-100 text-white">
+              查看商品
+              </button>
+            </div>
+            <div class="card-body">
+              <span class="text-grizzle">{{ item.category }}</span>
+              <h4 class="card-text my-2 fw-bold font-m">{{ item.title }}</h4>
+              <del>NT${{ $toCurrency(item.origin_price) }}</del>
+              <p class="font-m mt-2 fw-bold">NT${{ $toCurrency(item.price) }}</p>
+            </div>
+          </a>
+        </li>
         <div class="d-flex justify-content-center">
           <router-link to="/products/精選鞋款" class="btn btn-outline-primary rounded-0">
             查看更多
           </router-link>
         </div>
-      </div>
+      </ul>
     </div>
   </section>
-  <!-- 類別 -->
   <section class="py-4 pb-md-8">
     <div class="bg-grayLight mb-4 mb-md-6">
       <div class="container">
@@ -103,15 +102,25 @@
         <div class="col-md-7 col-lg-5">
           <h2 class="font-lg-xxl fw-bold mb-4 text-white text-shadow text-center text-md-start">
             歡迎訂閱我們</h2>
-          <div class="input-group">
-            <input type="text" class="form-control border-0 py-3" placeholder="輸入您的Email">
-            <button class="btn btn-secondary text-white px-5">訂閱</button>
-          </div>
+           <Form v-slot="{ errors }" class="form-signin">
+              <div class="input-group">
+                  <Field
+                  id="email"
+                  name="email"
+                  type="email"
+                  class="form-control border-0 py-3"
+                  :class="{ 'is-invalid': errors['email'] }"
+                  placeholder="輸入您的Email"
+                  rules="email|required"
+                  ></Field>
+                  <button type="button" class="btn btn-secondary text-white px-5">訂閱</button>
+                  <ErrorMessage name="email" class="invalid-feedback"></ErrorMessage>
+              </div>
+            </Form>
         </div>
       </div>
     </div>
   </section>
-  <router-view/>
 </template>
 
 <script>
@@ -119,7 +128,7 @@ import Swiper from '@/components/fronted/Swiper.vue';
 import PulseLoader from '@/components/PulseLoader.vue';
 
 export default {
-  name: 'Home',
+  name: 'index',
   data() {
     return {
       loading: false,
@@ -190,6 +199,10 @@ export default {
         );
       });
     },
+    goProduct(id) {
+      this.$router.push(`/product/${id}`);
+    },
+
   },
   created() {
     this.getProducts();
