@@ -55,6 +55,7 @@ export default {
       },
     },
   },
+  emits: ['delete'],
   data() {
     return {
       modal: '',
