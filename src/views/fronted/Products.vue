@@ -83,13 +83,15 @@
           價格篩選
           </span>
           <ul>
-              <li @click.prevent="filterPrice(), sortData = 'highToLow'">
-                <a href="#" class="dropdown-item">
+              <li>
+                <a href="#" class="dropdown-item"
+                @click.prevent="filterPrice(), sortData = 'highToLow'">
                 價格從高到低
                 </a>
               </li>
-              <li @click.prevent="filterPrice(), sortData = 'lowToHight'">
-                <a href="#" class="dropdown-item">
+              <li>
+                <a href="#" class="dropdown-item"
+                @click.prevent="filterPrice(), sortData = 'lowToHigh'">
                 價格從低到高
                 </a>
               </li>
@@ -212,6 +214,7 @@ export default {
         }
         return b.price - a.price;
       });
+      return this.showProducts;
     },
     goProduct(id) {
       this.$router.push(`/product/${id}`);
