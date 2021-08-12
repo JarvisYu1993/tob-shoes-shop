@@ -258,6 +258,7 @@ export default {
       default: false,
     },
   },
+  emits: ['update-product'],
   data() {
     return {
       status: {},
