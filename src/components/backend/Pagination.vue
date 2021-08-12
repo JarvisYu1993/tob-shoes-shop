@@ -33,5 +33,6 @@ export default {
       },
     },
   },
+  emits: ['get-product'],
 };
 </script>
