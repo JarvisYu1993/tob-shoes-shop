@@ -63,23 +63,22 @@
           </tbody>
         </table>
         <div class="d-block d-md-none mb-4" v-for="item in cart.carts" :key="item.id">
-          <div class="d-flex justify-content-between align-items-center mb-3">
+          <div class="d-flex mb-3">
             <div class="d-flex align-items-center">
               <router-link :to="`/product/${item.product.id}`">
                 <img class="table-img me-2" :src="item.product.imageUrl"
                 :alt="item.product.title">
               </router-link>
               <div class="d-flex flex-column align-items-start">
-                <h4 class="font-md-normal fw-bold">{{ item.product.title }}</h4>
-                <h5 class="font-md-normal">尺寸：{{ item.size.size }}
+                <h4 class="font-normal fw-bold">{{ item.product.title }}</h4>
+                <h5 class="font-normal">尺寸：{{ item.size.size }}
                   / {{ item.product.unit }}
                 </h5>
-                <h5 class="font-md-normal">{{ item.product.content }}</h5>
+                <h5 class="font-normal">{{ item.product.content }}</h5>
               </div>
             </div>
-            <p class="font-normal">NT${{ $toCurrency(item.total) }}</p>
           </div>
-          <div class="row justify-content-between align-items-center">
+          <div class="row justify-content-between align-items-center mb-4">
             <div class="col-8">
                   <div class="select-qty">
                     <button type="button"
@@ -108,6 +107,11 @@
             delete
             </a>
             </div>
+          </div>
+          <div class="d-flex justify-content-between align-items-center
+          border-top border-bottom py-2">
+            <p class="font-normal">金額：</p>
+            <p class="font-normal">NT${{ $toCurrency(item.total) }}</p>
           </div>
         </div>
         <div class="row justify-content-end">
