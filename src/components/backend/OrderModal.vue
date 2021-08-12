@@ -163,7 +163,7 @@ export default {
       tempOrder: {},
     };
   },
-  emits: ['update-product'],
+  emits: ['update-paid'],
   watch: {
     order() {
       this.tempOrder = this.order;
