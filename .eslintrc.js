@@ -21,7 +21,8 @@ module.exports = {
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     "no-param-reassign": ['error', { 'props': false }],
-    "no-else-return": ["error", { "allowElseIf": false }],
+    "no-else-return": ["error", { "allowElseIf": true }],
+    "consistent-return": ["error", { "treatUndefinedAsUnspecified": true }],
     "vue/no-unused-components": "off",
     'import/extensions': ['error', 'ignorePackages', {
       js: 'never',
