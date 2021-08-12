@@ -53,6 +53,7 @@ export default {
       },
     },
   },
+  emit: ['delete'],
   data() {
     return {
       modal: '',
